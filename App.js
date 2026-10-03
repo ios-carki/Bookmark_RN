@@ -7,6 +7,7 @@ import Button from "./components/UI/Button";
 import IconButton from "./components/UI/IconButton";
 import { GlobalStyles } from "./constants/GlobalStyles";
 import StarRating from "./components/UI/StarRating";
+import Input from "./components/ManageBook/Input";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,6 +35,7 @@ export default function App() {
       <IconButton name="add" color={GlobalStyles.colors.white} size={24}/>
       <StarRating size={32} rating={0} isInvalid={true}/>
       <StatusBar style="auto" />
+      <Input title="제목" placeholder={"책 제목"} isInvalid={true} multiline={true}/>
     </View>
   );
 }
