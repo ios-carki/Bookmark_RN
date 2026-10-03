@@ -3,11 +3,11 @@ import { GlobalStyles } from "../../constants/GlobalStyles";
 
 function Button({ title, onPress, titleTextStyle }) {
   return (
-    <View style={styles.container}>
-      <Pressable>
+    <Pressable onPress={onPress}>
+      <View style={styles.container}>
         <Text style={[styles.titleTextStyle, titleTextStyle]}>{title}</Text>
-      </Pressable>
-    </View>
+      </View>
+    </Pressable>
   );
 }
 

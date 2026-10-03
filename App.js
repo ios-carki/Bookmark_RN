@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Button from "./components/UI/Button";
+import IconButton from "./components/UI/IconButton";
+import { GlobalStyles } from "./constants/GlobalStyles";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,6 +30,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Button title="타이틀" titleTextStyle={{minWidth: 120}}/>
+      <IconButton name="add" color={GlobalStyles.colors.white} size={24}/>
       <StatusBar style="auto" />
     </View>
   );
