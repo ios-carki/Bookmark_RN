@@ -37,7 +37,7 @@ export default function App() {
       <StarRating size={32} rating={0} isInvalid={true}/>
       <StatusBar style="auto" />
       <Input title="제목" placeholder={"책 제목"} isInvalid={true} multiline={true}/>
-      <BookItem title="아몬드asdfasdfsadfasdfsdafasdf" author="손원평" pages={622} rating={3}/>
+      <BookItem title="아몬드asdfasdfsadfasdfsdafasdf" author="손원평" pages={1622} rating={3} finishedDate={new Date()}/>
     </View>
   );
 }

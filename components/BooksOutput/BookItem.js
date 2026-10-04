@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
+
 import { GlobalStyles } from "../../constants/GlobalStyles";
 import StarRating from "../UI/StarRating";
+import { getFormattedDate } from "../../utils/date";
+import { formatNumber } from "../../utils/format"
 
 function BookItem({ title, author, pages, finishedDate, rating, onPress }) {
   return (
@@ -21,11 +24,11 @@ function BookItem({ title, author, pages, finishedDate, rating, onPress }) {
           </View>
           <View style={styles.infoMetaContainer}>
             <StarRating size={14} rating={rating} />
-            <Text style={styles.dateTextStyle}>{finishedDate}</Text>
+            <Text style={styles.dateTextStyle}>{getFormattedDate(finishedDate)}</Text>
           </View>
         </View>
         <View style={styles.pageContainer}>
-          <Text style={styles.pageCountTextStyle}>{pages}</Text>
+          <Text style={styles.pageCountTextStyle}>{formatNumber(pages)}</Text>
           <Text style={styles.pageUnitTextStyle}>쪽</Text>
         </View>
       </View>
@@ -91,6 +94,6 @@ const styles = StyleSheet.create({
   },
   pageUnitTextStyle: {
     ...GlobalStyles.fonts.caption,
-    color: GlobalStyles.colors.primary700,
+    color: GlobalStyles.colors.primary400,
   },
 });
