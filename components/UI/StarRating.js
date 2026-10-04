@@ -4,27 +4,36 @@ import { GlobalStyles } from "../../constants/GlobalStyles";
 
 function StarRating({ size, rating, onPress, isInvalid }) {
   return (
-    <View style={styles.container}>
-      <View style={styles.starContainer}>
-        {[1, 2, 3, 4, 5].map((value) => {
-          const isFilled = value <= rating;
-          const color = isFilled
-            ? GlobalStyles.colors.accent500
-            : isInvalid
-              ? GlobalStyles.colors.error500
-              : GlobalStyles.colors.gray300;
+    <View style={[styles.row, onPress && styles.inputRow]}>
+      {[1, 2, 3, 4, 5].map((value) => {
+        const isFilled = value <= rating;
+        const color = isFilled
+          ? GlobalStyles.colors.accent500
+          : isInvalid
+            ? GlobalStyles.colors.error500
+            : GlobalStyles.colors.gray300;
+        const star = (
+          <Ionicons
+            name={isFilled ? "star" : "star-outline"}
+            size={size}
+            color={color}
+          />
+        );
 
-          return (
-            <Pressable key={value} onPress={() => onPress(value)}>
-              <Ionicons
-                name={isFilled ? "star" : "star-outline"}
-                size={size}
-                color={color}
-              />
-            </Pressable>
-          );
-        })}
-      </View>
+        if (!onPress) {
+          return <View key={value}>{star}</View>;
+        }
+
+        return (
+          <Pressable
+            key={value}
+            style={styles.pressableStar}
+            onPress={() => onPress(value)}
+          >
+            {star}
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
@@ -32,13 +41,7 @@ function StarRating({ size, rating, onPress, isInvalid }) {
 export default StarRating;
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 4,
-  },
-  starContainer: {
-    gap: 4,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  row: { flexDirection: "row", alignItems: "center", gap: 2 },
+  inputRow: { gap: 0, marginLeft: -4, alignSelf: "flex-start" },
+  pressableStar: { padding: 4 },
 });
