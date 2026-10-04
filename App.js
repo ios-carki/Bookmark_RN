@@ -9,6 +9,7 @@ import { GlobalStyles } from "./constants/GlobalStyles";
 import StarRating from "./components/UI/StarRating";
 import Input from "./components/ManageBook/Input";
 import BookItem from "./components/BooksOutput/BookItem";
+import BooksSummary from "./components/BooksOutput/BooksSummary";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,6 +39,7 @@ export default function App() {
       <StatusBar style="auto" />
       <Input title="제목" placeholder={"책 제목"} isInvalid={true} multiline={true}/>
       <BookItem title="아몬드asdfasdfsadfasdfsdafasdf" author="손원평" pages={1622} rating={3} finishedDate={new Date()}/>
+      <BooksSummary period="최근 30일" booksCount={0} pagesCount={1191} />
     </View>
   );
 }
