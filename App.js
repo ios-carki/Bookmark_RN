@@ -1,19 +1,70 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import Button from "./components/UI/Button";
-import IconButton from "./components/UI/IconButton";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Ionicons } from "@expo/vector-icons";
+
+import RecentBooks from "./Screens/RecentBooks";
 import { GlobalStyles } from "./constants/GlobalStyles";
-import StarRating from "./components/UI/StarRating";
-import Input from "./components/ManageBook/Input";
-import BookItem from "./components/BooksOutput/BookItem";
-import BooksSummary from "./components/BooksOutput/BooksSummary";
-import InfoTile from "./components/BookDetail/InfoTile";
-import { getFormattedDate } from "./utils/date";
+import IconButton from "./components/UI/IconButton";
+import AllBooks from "./Screens/AllBooks";
+import BookDetail from "./Screens/BookDetail";
+import ManageBook from "./Screens/ManageBook";
 
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator();
+const BottomTabs = createBottomTabNavigator();
+
+function BottomTabNavigator() {
+  return (
+    <BottomTabs.Navigator
+      screenOptions={({ navigation }) => ({
+        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        headerTintColor: GlobalStyles.colors.white,
+        tabBarStyle: { backgroundColor: GlobalStyles.colors.white },
+        tabBarActiveTintColor: GlobalStyles.colors.primary500,
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            name="add"
+            size={24}
+            color={tintColor}
+            onPress={() => {
+              navigation.navigate("ManageBook");
+            }}
+          />
+        ),
+      })}
+    >
+      <BottomTabs.Screen
+        name="RecentBooks"
+        component={RecentBooks}
+        options={{
+          title: "최근 읽은 책",
+          tabBarLabel: "최근 30일",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="time" size={size} color={color} />
+          ),
+        }}
+      />
+      <BottomTabs.Screen
+        name="AllBooks"
+        component={AllBooks}
+        options={{
+          title: "전체 서재",
+          tabBarLabel: "전체 서재",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="library" size={size} color={color} />
+          ),
+        }}
+      />
+    </BottomTabs.Navigator>
+  );
+}
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -34,40 +85,52 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button title="타이틀" titleTextStyle={{ minWidth: 120 }} />
-      <IconButton name="add" color={GlobalStyles.colors.white} size={24} />
-      <StarRating size={32} rating={0} isInvalid={true} />
-      <StatusBar style="auto" />
-      <Input
-        title="제목"
-        placeholder={"책 제목"}
-        isInvalid={true}
-        multiline={true}
-      />
-      <BookItem
-        title="아몬드asdfasdfsadfasdfsdafasdf"
-        author="손원평"
-        pages={1622}
-        rating={3}
-        finishedDate={new Date()}
-      />
-      <BooksSummary period="최근 30일" booksCount={0} pagesCount={1191} />
-      <View style={{ flexDirection: "row", gap: 12 }} >
-        <InfoTile
-          icon={"calendar-outline"}
-          label="완독일"
-          value={getFormattedDate(new Date())}
-          style={{ flex: 1 }}
-        />
-        <InfoTile
-          icon={"document-text-outline"}
-          label="페이지"
-          value={getFormattedDate(new Date())}
-          style={{ flex: 1 }}
-        />
-      </View>
-    </View>
+    <>
+      <StatusBar style="light" />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: GlobalStyles.colors.white,
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+          }}
+        >
+          <Stack.Screen
+            name="BottomTab"
+            component={BottomTabNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="BookDetail"
+            component={BookDetail}
+            options={({ navigation }) => ({
+              title: "책이름",
+              headerTintColor: GlobalStyles.colors.white,
+              headerRight: () => (
+                <IconButton
+                  name="create-outline"
+                  size={24}
+                  color={GlobalStyles.colors.white}
+                  onPress={() => {
+                    navigation.navigate("ManageBook")
+                  }}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="ManageBook"
+            component={ManageBook}
+            options={{
+              title: "책 추가",
+              headerTintColor: GlobalStyles.colors.white,
+              presentation: "modal",
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 
@@ -77,6 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#D6E5DF",
     justifyContent: "center",
     paddingHorizontal: 16,
-    gap: 12
+    gap: 12,
   },
 });

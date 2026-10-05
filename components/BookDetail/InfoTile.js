@@ -22,7 +22,7 @@ export default InfoTile;
 
 const styles = StyleSheet.create({
   contentsContainer: {
-    alignItems: "flex-start",
+    flex: 1,
     gap: 8,
     padding: 16,
     backgroundColor: GlobalStyles.colors.white,

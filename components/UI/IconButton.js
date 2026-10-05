@@ -4,7 +4,10 @@ import { GlobalStyles } from "../../constants/GlobalStyles";
 
 function IconButton({ name, size, color, onPress }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      style={({ pressed }) => pressed && styles.pressed}
+      onPress={onPress}
+    >
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           <Ionicons name={name} size={size} color={color} />
@@ -21,9 +24,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 2,
     backgroundColor: GlobalStyles.colors.primary500,
-    borderRadius: 10
+    borderRadius: 10,
   },
   iconContainer: {
     padding: 6,
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

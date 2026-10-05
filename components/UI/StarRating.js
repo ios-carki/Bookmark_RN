@@ -2,9 +2,9 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 
-function StarRating({ size, rating, onPress, isInvalid }) {
+function StarRating({ size, rating, onPress, isInvalid, style }) {
   return (
-    <View style={[styles.row, onPress && styles.inputRow]}>
+    <View style={[styles.row, onPress && styles.inputRow, style]}>
       {[1, 2, 3, 4, 5].map((value) => {
         const isFilled = value <= rating;
         const color = isFilled
