@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
     paddingVertical: 2,
-    backgroundColor: GlobalStyles.colors.primary500,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   iconContainer: {
     padding: 6,

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,14 +8,38 @@ import InfoTile from "../components/BookDetail/InfoTile";
 import { getFormattedDate } from "../utils/date";
 import { formatNumber } from "../utils/format";
 import { BookContext } from "../store/book-context";
+import IconButton from "../components/UI/IconButton";
 
 function BookDetail({ route, navigation }) {
   const bookId = route.params.bookId;
-  const bookCtx = useContext(BookContext)
-  const book = bookCtx.books.find(book => book.id === bookId)
+  const bookCtx = useContext(BookContext);
+  const book = bookCtx.books.find((book) => book.id === bookId);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: book?.title,
+      headerRight: () => (
+        <IconButton
+          name="create-outline"
+          size={24}
+          color={GlobalStyles.colors.white}
+          onPress={() => {
+            navigation.navigate("ManageBook", {
+              bookId: bookId,
+            });
+          }}
+        />
+      ),
+    });
+  }, [navigation, book, bookId]);
+
+  if (!book) return null;
 
   return (
-    <ScrollView style={styles.scrollViewScreen} contentContainerStyle={styles.scrollViewContentsScreen}>
+    <ScrollView
+      style={styles.scrollViewScreen}
+      contentContainerStyle={styles.scrollViewContentsScreen}
+    >
       <View style={styles.heroCardView}>
         <View style={styles.coverView}>
           <Ionicons
@@ -64,7 +88,7 @@ const styles = StyleSheet.create({
   scrollViewContentsScreen: {
     padding: 16,
     gap: 12,
-    flexGrow: 1
+    flexGrow: 1,
   },
   heroCardView: {
     paddingVertical: 24,

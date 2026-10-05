@@ -94,6 +94,7 @@ export default function App() {
             screenOptions={{
               headerTintColor: GlobalStyles.colors.white,
               headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+              headerBackButtonDisplayMode: "minimal"
             }}
           >
             <Stack.Screen
@@ -106,26 +107,15 @@ export default function App() {
             <Stack.Screen
               name="BookDetail"
               component={BookDetail}
-              options={({ navigation }) => ({
+              options={() => ({
                 title: "책이름",
                 headerTintColor: GlobalStyles.colors.white,
-                headerRight: () => (
-                  <IconButton
-                    name="create-outline"
-                    size={24}
-                    color={GlobalStyles.colors.white}
-                    onPress={() => {
-                      navigation.navigate("ManageBook");
-                    }}
-                  />
-                ),
               })}
             />
             <Stack.Screen
               name="ManageBook"
               component={ManageBook}
               options={{
-                title: "책 추가",
                 headerTintColor: GlobalStyles.colors.white,
                 presentation: "modal",
               }}
