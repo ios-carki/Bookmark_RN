@@ -18,7 +18,6 @@ function AllBooks({ navigation }) {
 
   function renderBookItems(bookData) {
     const data = bookData.item;
-    console.log(data);
 
     function itemPressHandler() {
       navigation.navigate("BookDetail", {

@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { GlobalStyles } from "../../constants/GlobalStyles";
@@ -86,21 +86,25 @@ function BookForm({ onCancel, onSumbit, defaultValue }) {
       [inputId]: { value: enteredValue, isValid: true },
     }));
   }
-
-  function confirmButtonHandler() {}
-
-  function cancelButtonHandler() {}
+  const formIsInvalid =
+    !inputs.title.isValid ||
+    !inputs.author.isValid ||
+    !inputs.page.isValid ||
+    !inputs.finishedDate.isValid ||
+    !inputs.rating.isValid;
 
   return (
     <View style={styles.container}>
       <Input
         title="제목"
+        isInvalid={!inputs.title.isValid}
         value={inputs.title.value}
         placeholder="책 제목"
         onChangeText={inputChangeHandler.bind(this, "title")}
       />
       <Input
         title="저자"
+        isInvalid={!inputs.author.isValid}
         value={inputs.author.value}
         placeholder="지은이"
         onChangeText={inputChangeHandler.bind(this, "author")}
@@ -108,6 +112,7 @@ function BookForm({ onCancel, onSumbit, defaultValue }) {
       <View style={styles.metaContainer}>
         <Input
           title="페이지"
+          isInvalid={!inputs.page.isValid}
           value={inputs.page.value}
           placeholder="0"
           containerStyle={styles.flexInput}
@@ -115,6 +120,7 @@ function BookForm({ onCancel, onSumbit, defaultValue }) {
         />
         <Input
           title="완독일"
+          isInvalid={!inputs.finishedDate.isValid}
           value={inputs.finishedDate.value}
           placeholder="2026-10-01"
           containerStyle={styles.flexInput}
@@ -127,6 +133,7 @@ function BookForm({ onCancel, onSumbit, defaultValue }) {
           size={32}
           rating={inputs.rating.value}
           onPress={inputChangeHandler.bind(this, "rating")}
+          isInvalid={!inputs.rating.isValid}
         />
       </View>
       <Input
@@ -136,6 +143,9 @@ function BookForm({ onCancel, onSumbit, defaultValue }) {
         multiline={true}
         onChangeText={inputChangeHandler.bind(this, "memo")}
       />
+      {formIsInvalid && (
+        <Text style={styles.validErrorTextStyle}>입력값을 확인해주세요. 빨간 항목을 고쳐주세요.</Text>
+      )}
       <View style={styles.buttonsContainer}>
         <Button
           title="취소"
@@ -182,5 +192,10 @@ const styles = StyleSheet.create({
   },
   flexInput: {
     flex: 1,
+  },
+  validErrorTextStyle: {
+    ...GlobalStyles.fonts.sub,
+    color: GlobalStyles.colors.error500,
+    textAlign: "center",
   },
 });
