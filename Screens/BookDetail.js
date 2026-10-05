@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -6,9 +7,13 @@ import StarRating from "../components/UI/StarRating";
 import InfoTile from "../components/BookDetail/InfoTile";
 import { getFormattedDate } from "../utils/date";
 import { formatNumber } from "../utils/format";
+import { BookContext } from "../store/book-context";
 
 function BookDetail({ route, navigation }) {
-  const book = route.params.book;
+  const bookId = route.params.bookId;
+  const bookCtx = useContext(BookContext)
+  const book = bookCtx.books.find(book => book.id === bookId)
+
   return (
     <ScrollView style={styles.scrollViewScreen} contentContainerStyle={styles.scrollViewContentsScreen}>
       <View style={styles.heroCardView}>

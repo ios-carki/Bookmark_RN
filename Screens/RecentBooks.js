@@ -1,13 +1,23 @@
 import { View, FlatList, StyleSheet } from "react-native";
+import { useContext } from "react";
 
 import BooksSummary from "../components/BooksOutput/BooksSummary";
-import { DUMMY_BOOKS } from "../data/dummy-data";
 import BookItem from "../components/BooksOutput/BookItem";
 import { GlobalStyles } from "../constants/GlobalStyles";
+import { BookContext } from "../store/book-context";
+import { getDateMinusDays } from "../utils/date";
 
 function RecentBooks({ navigation }) {
-  const booksCount = DUMMY_BOOKS.length;
-  const pageCount = DUMMY_BOOKS.reduce((sum, book) => {
+  const bookCtx = useContext(BookContext);
+  const recentBooks = bookCtx.books.filter((book) => {
+    const today = new Date();
+    const date30DaysAgo = getDateMinusDays(today, 30);
+
+    return book.finishedDate > date30DaysAgo && book.finishedDate <= today;
+  });
+
+  const booksCount = recentBooks.length;
+  const pageCount = recentBooks.reduce((sum, book) => {
     return sum + book.page;
   }, 0);
 
@@ -16,7 +26,7 @@ function RecentBooks({ navigation }) {
 
     function itemPressHandler() {
       navigation.navigate("BookDetail", {
-        book: data,
+        bookId: data.id,
       });
     }
 
@@ -40,9 +50,10 @@ function RecentBooks({ navigation }) {
         pagesCount={pageCount}
       />
       <FlatList
-        data={DUMMY_BOOKS}
+        data={recentBooks}
         renderItem={renderBookItems}
         contentContainerStyle={styles.listContainer}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

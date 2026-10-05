@@ -14,6 +14,7 @@ import IconButton from "./components/UI/IconButton";
 import AllBooks from "./Screens/AllBooks";
 import BookDetail from "./Screens/BookDetail";
 import ManageBook from "./Screens/ManageBook";
+import BooksContextProvider from "./store/book-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -87,49 +88,51 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerTintColor: GlobalStyles.colors.white,
-            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-          }}
-        >
-          <Stack.Screen
-            name="BottomTab"
-            component={BottomTabNavigator}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="BookDetail"
-            component={BookDetail}
-            options={({ navigation }) => ({
-              title: "책이름",
+      <BooksContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
               headerTintColor: GlobalStyles.colors.white,
-              headerRight: () => (
-                <IconButton
-                  name="create-outline"
-                  size={24}
-                  color={GlobalStyles.colors.white}
-                  onPress={() => {
-                    navigation.navigate("ManageBook")
-                  }}
-                />
-              ),
-            })}
-          />
-          <Stack.Screen
-            name="ManageBook"
-            component={ManageBook}
-            options={{
-              title: "책 추가",
-              headerTintColor: GlobalStyles.colors.white,
-              presentation: "modal",
+              headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
             }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="BottomTab"
+              component={BottomTabNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="BookDetail"
+              component={BookDetail}
+              options={({ navigation }) => ({
+                title: "책이름",
+                headerTintColor: GlobalStyles.colors.white,
+                headerRight: () => (
+                  <IconButton
+                    name="create-outline"
+                    size={24}
+                    color={GlobalStyles.colors.white}
+                    onPress={() => {
+                      navigation.navigate("ManageBook");
+                    }}
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="ManageBook"
+              component={ManageBook}
+              options={{
+                title: "책 추가",
+                headerTintColor: GlobalStyles.colors.white,
+                presentation: "modal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </BooksContextProvider>
     </>
   );
 }
